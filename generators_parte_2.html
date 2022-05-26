@@ -1,0 +1,75 @@
+<html>
+    <body>
+        
+        <script>
+
+            function* conversar() {
+                //escopo proprio
+                //opcao
+               
+                //1 bloco
+                let opcao = yield 'Olá Kamilly,tudo bem?'
+                  
+                //2 bloco
+               // o parametro enviado no next
+                 if(opcao == 'sim'){
+                    yield 'Bem,fico feliz!'
+
+                    opcao = yield 'Como eu posso te ajudar? Quer uma piada para começar?'
+
+                    if(opcao == 'sim') {
+
+                        fetch('dados/piadas.json')
+                        .then(resposta => resposta.json())
+                        .then(piadas => {
+                            let idx = Math.floor((Math.random() * 10)) -1
+                            idx = idx < 0 ? 0: idx
+
+                            let piada = piadas[idx]
+                            console.log(piada)
+
+                            setTimeout(() => {
+                                console.log(piada.resposta)
+                                console.log('kkkkkk muito boa né')
+                                yield  'Digite 1 para compra,2 para venda ou 3 para falar com um atendente'
+                                },4000)
+                        })
+
+                    }else {
+                        yield  'Digite 1 para compra,2 para venda ou 3 para falar com um atendente'
+                    }
+
+                    console.log(opcao)
+                    yield 'teste ate esse ponto'
+                 }else { 
+                     yield 'Respire fundo e tenha paciencia'
+
+                     yield 'Digite 1 para compra,2 para venda ou 3 para falar com um atendente'
+                 }
+                 return' atendimento finalizado'
+    '
+            } 
+
+            let conversa = conversar() //objeto iterator
+             
+            function acao(){
+
+                let resposta = document.getElementById('resposta').value
+
+               
+                let iteracao = conversa.next(resposta)
+                console.log(iteracao)
+
+                if(iterecao.done) {
+                    document.getElementById('teste').style.display = 'none'
+                }
+
+            }
+           
+        </script>
+        <div id="teste">
+            <button type="button" onclick="acao()">Avançar</button>
+            Resposta: <input type="text" id="resposta">
+        </div>
+    </body>
+</html>
